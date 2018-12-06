@@ -33,24 +33,40 @@ namespace Restaurants.Controllers
         {
 
             Console.WriteLine("Controller worked");
-            Dictionary<string, object> model = new Dictionary<string, object>();
             Cuisine selectedCuisine = Cuisine.Find(cuisine_id);
+            Dictionary<string, object> model = new Dictionary<string, object>();
             Restaurant selectRestaurant = Restaurant.FindRestaurant(restaurant_id);
             model.Add("Cuisine", selectedCuisine);
             model.Add("Restaurant", selectRestaurant);
             return View("Show", model);
         }
 
-        // [HttpGet("/Cuisine/{cuisine_id}/Restaurant/{restaurant_id}")]
-        // public ActionResult ShowRestaurant(int cuisine_id, int restaurant_id)
-        // {
-        //     Console.WriteLine("Controller worked");
-        //     Dictionary<string, object> model = new Dictionary<string, object>();
-        //     Cuisine selectedCuisine = Cuisine.Find(cuisine_id);
-        //     Restaurant selectRestaurant = Restaurant.FindRestaurant(restaurant_id);
-        //     model.Add("Cuisine", selectedCuisine);
-        //     model.Add("Restaurant", selectRestaurant);
-        //     return View("Show", model);
-        // }
+
+        [HttpGet("/Cuisine/{cuisine_id}/Restaurant/{restaurant_id}/edit")]
+        public ActionResult Edit(int cuisine_id, int restaurant_id)
+        {
+            Console.WriteLine("Controller for edit worked");
+            Dictionary<string, object> model = new Dictionary<string, object>();
+            Restaurant selectRestaurant = Restaurant.FindRestaurant(restaurant_id);
+            model.Add("Restaurant", selectRestaurant);
+            Cuisine selectedCuisine = Cuisine.Find(cuisine_id);
+            model.Add("Cuisine", selectedCuisine);
+            return View("Edit", model);
+        }
+
+        [HttpPost("/Cuisine/{cuisine_id}/Restaurant/{restaurant_id}")]
+        public ActionResult Update(int cuisine_id, int restaurant_id, string restaurantName, string location)
+        {
+
+            Console.WriteLine("Controller worked");
+            Restaurant selectedRestaurant = Restaurant.FindRestaurant(restaurant_id);
+            Cuisine selectedCuisine = Cuisine.Find(cuisine_id);
+            selectedRestaurant.Edit(restaurantName, location);
+            Dictionary<string, object> model = new Dictionary<string, object>();
+            Restaurant selectRestaurant = Restaurant.FindRestaurant(restaurant_id);
+            model.Add("Cuisine", selectedCuisine);
+            model.Add("Restaurant", selectedRestaurant);
+            return View("Show", model);
+        }
     }
 }

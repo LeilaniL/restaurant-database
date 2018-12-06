@@ -114,5 +114,37 @@ namespace Restaurants.Models
             return newRestaurant;
         }
 
+        public void Edit(string restaurantName, string location)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"UPDATE restaurants SET name = @newname WHERE id = @searchId;";
+            cmd.CommandText = @"UPDATE restaurants SET location = @newlocation WHERE id = @searchId;";
+            MySqlParameter searchId = new MySqlParameter();
+            searchId.ParameterName = "@searchId";
+            searchId.Value = _id;
+            cmd.Parameters.Add(searchId);
+            MySqlParameter nameinfo = new MySqlParameter();
+            MySqlParameter locationinfo = new MySqlParameter();
+            nameinfo.ParameterName = "@newname";
+            locationinfo.ParameterName = "@newlocation";
+            nameinfo.Value = restaurantName;
+            locationinfo.Value = location;
+            cmd.Parameters.Add(nameinfo);
+            cmd.Parameters.Add(locationinfo);
+            cmd.ExecuteNonQuery();
+            _name = restaurantName;
+            _location = location;
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+        public int GetCategoryId()
+        {
+            return _cuisineId;
+        }
     }
 }

@@ -1,0 +1,16 @@
+@{
+  Layout = "_Layout";
+}
+
+
+@if (@Model.Count == 0)
+{
+  <h3>I will show a list of cuisines soon!</h3>
+}
+
+@foreach (var cuisine in Model)
+{
+  <h3><a href='/Cuisine/@cuisine.GetId()'>@cuisine.GetName()</a></h3>
+}
+
+<p><a href='/'>Back home</a></p>

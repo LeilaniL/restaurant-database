@@ -1,0 +1,14 @@
+@{
+  Layout = "_Layout";
+}
+<div class = "container">
+<h1>Add a new @Model.GetName() restaurant</h1>
+<form action = "/addRestaurant" method = "post">
+    <label for= "RestaurantName">Restaurant Name:</label>
+    <input type = "text" name = "RestaurantName">
+    <label for= "Location">Location:</label>
+    <input type = "text" name = "Location">
+    <input type = "hidden" name = "Cuisine" value = "@Model.GetId()">
+    <button type = "submit">Add Restaurant</button>
+</form>
+</div>

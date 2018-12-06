@@ -21,15 +21,48 @@ namespace Restaurants.Controllers
             return View("Index", allCuisine);
 
         }
-        // [HttpGet("/Cuisine/{id}")]
-        // public ActionResult Show(int id)
+
+        [HttpGet("/showCuisine")]
+        public ActionResult Show()
+        {
+            List<Cuisine> allCuisine = Cuisine.GetAll();
+            return View("Index", allCuisine);
+
+        }
+        [HttpGet("/Cuisine/{id}")]
+        public ActionResult Show(int id)
+        {
+            Dictionary<string, object> model = new Dictionary<string, object>();
+            Cuisine selectedCuisine = Cuisine.Find(id);
+            List<Restaurant> CuisineRestaurants = Cuisine.GetRestaurantsByCuisine(id);
+            model.Add("Cuisine", selectedCuisine);
+            model.Add("restaurant", CuisineRestaurants);
+            return View(model);
+        }
+
+        // [HttpGet("/Cuisine/{cuisine_id}/Restaurant/{restaurant_id}")]
+        // public ActionResult ShowRestaurant(int cuisine_id, int restaurant_id)
+        // {
+
+        //     Console.WriteLine("Controller worked");
+        //     Dictionary<string, object> model = new Dictionary<string, object>();
+        //     Cuisine selectedCuisine = Cuisine.Find(cuisine_id);
+        //     Restaurant selectRestaurant = Restaurant.FindRestaurant(restaurant_id);
+        //     model.Add("Cuisine", selectedCuisine);
+        //     model.Add("restaurant", selectRestaurant);
+        //     return View("Show", model);
+
+        // }
+        // [HttpGet("Cuisine/{id}/restaurant/new")]
+        // public ActionResult Show(int cuisineId)
         // {
         //     Dictionary<string, object> model = new Dictionary<string, object>();
-        //     Cuisine selectedCuisine = Cuisine.Find(id);
-        //     List<Restaurant> CuisineRestaurants = selectedCuisine.GetAllRestaurants();
-        //     model.Add("Cuisine", selectedCuisine);
-        //     model.Add("items", CuisineItems);
-        //     return View(model);
+        //     Cuisine selectedCuisine = Cuisine.Find(cuisineId);
+        //     List<Restaurant> selectedRestaurants = Cuisine.GetRestaurantsByCuisine(cuisineId);
+        //     model.Add("cuisine", selectedCuisine);
+        //     model.Add("restaurants", selectedRestaurants);
+        //     return View("../restaurant/new", model);
+        // }
         // }
 
         // [HttpPost("/Cuisine/{cuisineId}/Cuisine")]

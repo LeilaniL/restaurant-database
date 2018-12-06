@@ -83,6 +83,36 @@ namespace Restaurants.Models
                 conn.Dispose();
             }
         }
+        public static Restaurant FindRestaurant(int id)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM restaurants WHERE id = (@searchId);";
+            MySqlParameter searchId = new MySqlParameter();
+            searchId.ParameterName = "@searchId";
+            searchId.Value = id;
+            cmd.Parameters.Add(searchId);
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+            int restaurantId = 1;
+            string restaurantName = "";
+            string location = "";
+            int cuisineId = 1;
+            while (rdr.Read())
+            {
+                restaurantName = rdr.GetString(0);
+                cuisineId = rdr.GetInt32(1);
+                location = rdr.GetString(2);
+                restaurantId = id;
+            }
+            Restaurant newRestaurant = new Restaurant(restaurantName, location, cuisineId, id);
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return newRestaurant;
+        }
 
     }
 }
